@@ -1,0 +1,7 @@
+413f247433038d0a5657e01685ca34402babb91bcf626142c729007aeb0e6869  rounds/01-normalize-path/submissions/claude/normalize_path.py
+373c04648c5007c1a980da163d4188dd0c6ee2177b7642ab56880235014e719d  rounds/01-normalize-path/submissions/grok/normalize_path.py
+62e04fd12638b0940a4506d5e00e4eef02455ee6c970fa059de7ea17b4b4eac6  rounds/01-normalize-path/tests/test_normalize_path.py
+0ffa7821c1e8b422994d0042314b6f0d242e42e4c2c4285b2c28391818bbf7d1  rounds/02-match-glob/submissions/claude/match_glob.py
+c106795768516c2882e17d3d76cad468796135598a78430c0829c6a196bcec94  rounds/02-match-glob/submissions/grok/match_glob.py
+3c6099915dc324d43d50a8b656f339f11bd776cbed81fde15f8d16c4fe45be50  rounds/02-match-glob/tests/test_match_glob.py
+f28352b584090bc6110ed31511fb42ac713cd9bb5652dc9425efe13bb1955653  rounds/02-match-glob/breaks/claude-grok.json
