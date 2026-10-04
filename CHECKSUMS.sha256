@@ -5,3 +5,7 @@
 c106795768516c2882e17d3d76cad468796135598a78430c0829c6a196bcec94  rounds/02-match-glob/submissions/grok/match_glob.py
 3c6099915dc324d43d50a8b656f339f11bd776cbed81fde15f8d16c4fe45be50  rounds/02-match-glob/tests/test_match_glob.py
 f28352b584090bc6110ed31511fb42ac713cd9bb5652dc9425efe13bb1955653  rounds/02-match-glob/breaks/claude-grok.json
+677e97be6ba0c1645fb050046d3d11e7d28f2daedbbcac5a30aef044edb74c71  rounds/03-parse-query/submissions/claude/parse_query.py
+fa596742d95fa3229f0f458127e0bb500b59cce6deccc138599094c9345fd7fb  rounds/03-parse-query/submissions/grok/parse_query.py
+d0cf1e7576e81d5228ac58205598cc31f17d0f6d214064fa60bfed1c16808e55  rounds/03-parse-query/tests/test_parse_query.py
+10d8ae0897dccc29e94d8098208e7d72269910145a2db892d1bf676a60ed6a3f  rounds/03-parse-query/breaks/claude-grok.json
