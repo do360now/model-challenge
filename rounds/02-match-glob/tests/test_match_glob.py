@@ -1,0 +1,131 @@
+from match_glob import match_glob
+import pytest
+
+CASES = [
+    ('', '', True),
+    ('', 'a', False),
+    ('a', 'a', True),
+    ('a', 'A', False),
+    ('*', '', True),
+    ('*', 'abc', True),
+    ('*', 'a/b', False),
+    ('*', '.hidden', True),
+    ('.*', '.hidden', True),
+    ('?', 'a', True),
+    ('?', '', False),
+    ('?', '/', False),
+    ('??', 'ab', True),
+    ('a?', 'ab', True),
+    ('a?', 'a', False),
+    ('a*', 'a', True),
+    ('a*', 'abc', True),
+    ('a*', 'a/b', False),
+    ('*b', 'ab', True),
+    ('*b', 'b', True),
+    ('a*c', 'ac', True),
+    ('a*c', 'abbc', True),
+    ('a*c', 'ab/c', False),
+    ('**', '', True),
+    ('**', 'a', True),
+    ('**', 'a/b', True),
+    ('**', '/', True),
+    ('a/**/b', 'a/b', True),
+    ('a/**/b', 'a/x/b', True),
+    ('a/**/b', 'a/x/y/b', True),
+    ('a/**/b', 'a/x/c', False),
+    ('a/**/b', 'b', False),
+    ('**/b', 'b', True),
+    ('**/b', 'x/b', True),
+    ('**/b', 'x/y/b', True),
+    ('**/b', 'x/y/c', False),
+    ('a/**', 'a', True),
+    ('a/**', 'a/x', True),
+    ('a/**', 'a/x/y', True),
+    ('a/**', 'b/a', False),
+    ('a/*', 'a/b', True),
+    ('a/*', 'a/b/c', False),
+    ('a/*', 'a/', True),
+    ('a/*/c', 'a/b/c', True),
+    ('a/*/c', 'a/c', False),
+    ('**/**', 'a/b', True),
+    ('**/**', '', True),
+    ('[abc]', 'b', True),
+    ('[abc]', 'd', False),
+    ('[a-c]', 'b', True),
+    ('[a-c]', 'd', False),
+    ('[a-c]', 'a', True),
+    ('[a-c]', 'c', True),
+    ('[!abc]', 'z', True),
+    ('[!abc]', 'a', False),
+    ('[!a-c]', 'd', True),
+    ('[!a-c]', 'b', False),
+    ('[]]', ']', True),
+    ('[!]]', 'a', True),
+    ('[!]]', ']', False),
+    ('[-a]', '-', True),
+    ('[-a]', 'a', True),
+    ('[a-]', 'a', True),
+    ('[a-]', '-', True),
+    ('[/a]', 'a', True),
+    ('[/]', 'a', False),
+    ('a\\*b', 'a*b', True),
+    ('a\\*b', 'axb', False),
+    ('a\\?b', 'a?b', True),
+    ('\\*', '*', True),
+    ('\\[', '[', True),
+    ('a\\/b', 'a/b', True),
+    ('a\\/b', 'a\\/b', False),
+    ('a//b', 'a//b', True),
+    ('a//b', 'a/b', False),
+    ('/a', '/a', True),
+    ('/a', 'a', False),
+    ('a/', 'a/', True),
+    ('a/', 'a', False),
+    ('*', '/', False),
+    ('foo/bar', 'foo/bar', True),
+    ('foo/bar', 'foo/baz', False),
+    ('*.txt', 'a.txt', True),
+    ('*.txt', 'a.TXT', False),
+    ('*.txt', '.txt', True),
+    ('a[bc]d', 'abd', True),
+    ('a[bc]d', 'ad', False),
+    ('a\\[b]', 'a[b]', True),
+    ('[a-c-e]', 'd', True),
+    ('**/*.py', 'a.py', True),
+    ('**/*.py', 'x/y/a.py', True),
+    ('**/*.py', 'x/y/a.px', False),
+    ('src/**/a', 'src/a', True),
+    ('src/**/a', 'src/x/y/a', True),
+    (']', ']', True),
+]
+
+RAISES = [
+    ('a**b', 'ab'),
+    ('***', 'a'),
+    ('a\\', 'a'),
+    ('[', 'a'),
+    ('[]', 'a'),
+    ('[!]', 'a'),
+    ('[z-a]', 'a'),
+    ('a\x00', 'a'),
+    ('a', 'a\x00b'),
+    ('a/**b', 'a/b'),
+    ('**a', 'a'),
+]
+
+def test_cases():
+    for pattern, text, expected in CASES:
+        assert match_glob(pattern, text) is expected
+
+def test_raises():
+    for pattern, text in RAISES:
+        with pytest.raises(ValueError):
+            match_glob(pattern, text)
+
+def test_rejects_long_pattern():
+    with pytest.raises(ValueError):
+        match_glob('a' * 4097, 'a')
+
+def test_rejects_long_text():
+    with pytest.raises(ValueError):
+        match_glob('a', 'b' * 4097)
